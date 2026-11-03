@@ -1,0 +1,27 @@
+{
+  "team_number": "T0001",
+  "group_lead": {
+    "name": "Garvit Gandhi",
+    "enrollment_no": "2501010166",
+    "github": "Garvit-png"
+  },
+  "members": [
+    {
+      "name": "Japinder Kaur",
+      "enrollment_no": "2501010649",
+      "github": "japinderofficial-hub"
+    },
+    {
+      "name": "Vansh Adhlakha",
+      "enrollment_no": "2501010496",
+      "github": "VanshAdhlakha"
+    },
+    {
+      "name": "Keshav",
+      "enrollment_no": "2501010217",
+      "github": "Keshavv07"
+    }
+  ],
+  "postgres_version": "",
+  "laptop_used_for_benchmarks": "MacBook Pro M4"
+}
