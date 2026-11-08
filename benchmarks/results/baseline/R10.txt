@@ -1,0 +1,42 @@
+=== R10 run 1 ===
+Seq Scan on drivers d  (cost=9390.43..9483.43 rows=1354 width=18) (actual time=14.711..14.712 rows=0 loops=1)
+  Filter: ((NOT (hashed SubPlan 1)) AND ((status)::text = 'ACTIVE'::text))
+  Rows Removed by Filter: 3000
+  Buffers: shared hit=5680
+  SubPlan 1
+    ->  Seq Scan on trips t  (cost=0.00..9382.00 rows=3372 width=4) (actual time=13.739..13.931 rows=3296 loops=1)
+          Filter: (requested_at >= '2026-06-25 00:00:00+05:30'::timestamp with time zone)
+          Rows Removed by Filter: 296704
+          Buffers: shared hit=5632
+Planning:
+  Buffers: shared hit=133
+Planning Time: 0.247 ms
+Execution Time: 14.745 ms
+=== R10 run 2 ===
+Seq Scan on drivers d  (cost=9390.43..9483.43 rows=1354 width=18) (actual time=13.886..13.887 rows=0 loops=1)
+  Filter: ((NOT (hashed SubPlan 1)) AND ((status)::text = 'ACTIVE'::text))
+  Rows Removed by Filter: 3000
+  Buffers: shared hit=5680
+  SubPlan 1
+    ->  Seq Scan on trips t  (cost=0.00..9382.00 rows=3372 width=4) (actual time=13.246..13.442 rows=3296 loops=1)
+          Filter: (requested_at >= '2026-06-25 00:00:00+05:30'::timestamp with time zone)
+          Rows Removed by Filter: 296704
+          Buffers: shared hit=5632
+Planning:
+  Buffers: shared hit=133
+Planning Time: 0.232 ms
+Execution Time: 13.911 ms
+=== R10 run 3 ===
+Seq Scan on drivers d  (cost=9390.43..9483.43 rows=1354 width=18) (actual time=14.731..14.732 rows=0 loops=1)
+  Filter: ((NOT (hashed SubPlan 1)) AND ((status)::text = 'ACTIVE'::text))
+  Rows Removed by Filter: 3000
+  Buffers: shared hit=5680
+  SubPlan 1
+    ->  Seq Scan on trips t  (cost=0.00..9382.00 rows=3372 width=4) (actual time=14.050..14.268 rows=3296 loops=1)
+          Filter: (requested_at >= '2026-06-25 00:00:00+05:30'::timestamp with time zone)
+          Rows Removed by Filter: 296704
+          Buffers: shared hit=5632
+Planning:
+  Buffers: shared hit=133
+Planning Time: 0.233 ms
+Execution Time: 14.756 ms

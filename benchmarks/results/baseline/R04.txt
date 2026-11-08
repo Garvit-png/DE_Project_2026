@@ -1,0 +1,87 @@
+=== R04 run 1 ===
+Gather Merge  (cost=8509.54..8514.91 rows=46 width=29) (actual time=9.841..11.063 rows=81 loops=1)
+  Workers Planned: 2
+  Workers Launched: 2
+  Buffers: shared hit=5803
+  ->  Sort  (cost=7509.52..7509.58 rows=23 width=29) (actual time=7.758..7.760 rows=27 loops=3)
+        Sort Key: t.requested_at
+        Sort Method: quicksort  Memory: 27kB
+        Buffers: shared hit=5803
+        Worker 0:  Sort Method: quicksort  Memory: 25kB
+        Worker 1:  Sort Method: quicksort  Memory: 25kB
+        ->  Hash Join  (cost=1.14..7509.00 rows=23 width=29) (actual time=6.813..7.726 rows=27 loops=3)
+              Hash Cond: (t.city_id = c.city_id)
+              Buffers: shared hit=5729
+              ->  Parallel Seq Scan on trips t  (cost=0.00..7507.00 rows=231 width=31) (actual time=6.703..7.604 rows=183 loops=3)
+                    Filter: ((requested_at >= '2026-05-10 00:00:00+05:30'::timestamp with time zone) AND (requested_at < '2026-05-11 00:00:00+05:30'::timestamp with time zone))
+                    Rows Removed by Filter: 99817
+                    Buffers: shared hit=5632
+              ->  Hash  (cost=1.12..1.12 rows=1 width=2) (actual time=0.051..0.051 rows=1 loops=3)
+                    Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                    Buffers: shared hit=3
+                    ->  Seq Scan on cities c  (cost=0.00..1.12 rows=1 width=2) (actual time=0.043..0.044 rows=1 loops=3)
+                          Filter: ((city_name)::text = 'Bengaluru'::text)
+                          Rows Removed by Filter: 9
+                          Buffers: shared hit=3
+Planning:
+  Buffers: shared hit=242
+Planning Time: 0.376 ms
+Execution Time: 11.118 ms
+=== R04 run 2 ===
+Gather Merge  (cost=8509.54..8514.91 rows=46 width=29) (actual time=8.934..10.065 rows=81 loops=1)
+  Workers Planned: 2
+  Workers Launched: 2
+  Buffers: shared hit=5803
+  ->  Sort  (cost=7509.52..7509.58 rows=23 width=29) (actual time=7.143..7.144 rows=27 loops=3)
+        Sort Key: t.requested_at
+        Sort Method: quicksort  Memory: 27kB
+        Buffers: shared hit=5803
+        Worker 0:  Sort Method: quicksort  Memory: 25kB
+        Worker 1:  Sort Method: quicksort  Memory: 25kB
+        ->  Hash Join  (cost=1.14..7509.00 rows=23 width=29) (actual time=6.280..7.121 rows=27 loops=3)
+              Hash Cond: (t.city_id = c.city_id)
+              Buffers: shared hit=5729
+              ->  Parallel Seq Scan on trips t  (cost=0.00..7507.00 rows=231 width=31) (actual time=6.173..7.003 rows=183 loops=3)
+                    Filter: ((requested_at >= '2026-05-10 00:00:00+05:30'::timestamp with time zone) AND (requested_at < '2026-05-11 00:00:00+05:30'::timestamp with time zone))
+                    Rows Removed by Filter: 99817
+                    Buffers: shared hit=5632
+              ->  Hash  (cost=1.12..1.12 rows=1 width=2) (actual time=0.047..0.047 rows=1 loops=3)
+                    Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                    Buffers: shared hit=3
+                    ->  Seq Scan on cities c  (cost=0.00..1.12 rows=1 width=2) (actual time=0.039..0.040 rows=1 loops=3)
+                          Filter: ((city_name)::text = 'Bengaluru'::text)
+                          Rows Removed by Filter: 9
+                          Buffers: shared hit=3
+Planning:
+  Buffers: shared hit=242
+Planning Time: 0.274 ms
+Execution Time: 10.091 ms
+=== R04 run 3 ===
+Gather Merge  (cost=8509.54..8514.91 rows=46 width=29) (actual time=8.362..9.473 rows=81 loops=1)
+  Workers Planned: 2
+  Workers Launched: 2
+  Buffers: shared hit=5803
+  ->  Sort  (cost=7509.52..7509.58 rows=23 width=29) (actual time=6.898..6.904 rows=27 loops=3)
+        Sort Key: t.requested_at
+        Sort Method: quicksort  Memory: 27kB
+        Buffers: shared hit=5803
+        Worker 0:  Sort Method: quicksort  Memory: 25kB
+        Worker 1:  Sort Method: quicksort  Memory: 25kB
+        ->  Hash Join  (cost=1.14..7509.00 rows=23 width=29) (actual time=6.073..6.878 rows=27 loops=3)
+              Hash Cond: (t.city_id = c.city_id)
+              Buffers: shared hit=5729
+              ->  Parallel Seq Scan on trips t  (cost=0.00..7507.00 rows=231 width=31) (actual time=5.990..6.784 rows=183 loops=3)
+                    Filter: ((requested_at >= '2026-05-10 00:00:00+05:30'::timestamp with time zone) AND (requested_at < '2026-05-11 00:00:00+05:30'::timestamp with time zone))
+                    Rows Removed by Filter: 99817
+                    Buffers: shared hit=5632
+              ->  Hash  (cost=1.12..1.12 rows=1 width=2) (actual time=0.037..0.038 rows=1 loops=3)
+                    Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                    Buffers: shared hit=3
+                    ->  Seq Scan on cities c  (cost=0.00..1.12 rows=1 width=2) (actual time=0.031..0.032 rows=1 loops=3)
+                          Filter: ((city_name)::text = 'Bengaluru'::text)
+                          Rows Removed by Filter: 9
+                          Buffers: shared hit=3
+Planning:
+  Buffers: shared hit=242
+Planning Time: 0.256 ms
+Execution Time: 9.497 ms

@@ -1,0 +1,81 @@
+=== R20 run 1 ===
+WindowAgg  (cost=9468.79..9642.70 rows=1226 width=68) (actual time=13.992..14.921 rows=31 loops=1)
+  Buffers: shared hit=5706
+  ->  Finalize GroupAggregate  (cost=9468.79..9624.31 rows=1226 width=36) (actual time=13.976..14.906 rows=31 loops=1)
+        Group Key: ((trips.requested_at)::date)
+        Buffers: shared hit=5706
+        ->  Gather Merge  (cost=9468.79..9598.25 rows=1022 width=36) (actual time=13.960..14.883 rows=93 loops=1)
+              Workers Planned: 2
+              Workers Launched: 2
+              Buffers: shared hit=5706
+              ->  Partial GroupAggregate  (cost=8468.77..8480.26 rows=511 width=36) (actual time=11.829..12.106 rows=31 loops=3)
+                    Group Key: ((trips.requested_at)::date)
+                    Buffers: shared hit=5706
+                    ->  Sort  (cost=8468.77..8470.04 rows=511 width=10) (actual time=11.811..11.896 rows=4667 loops=3)
+                          Sort Key: ((trips.requested_at)::date)
+                          Sort Method: quicksort  Memory: 371kB
+                          Buffers: shared hit=5706
+                          Worker 0:  Sort Method: quicksort  Memory: 376kB
+                          Worker 1:  Sort Method: quicksort  Memory: 377kB
+                          ->  Parallel Seq Scan on trips  (cost=0.00..8445.78 rows=511 width=10) (actual time=9.980..11.625 rows=4667 loops=3)
+                                Filter: (((status)::text = 'COMPLETED'::text) AND ((requested_at)::date >= '2026-05-01'::date) AND ((requested_at)::date <= '2026-05-31'::date))
+                                Rows Removed by Filter: 95333
+                                Buffers: shared hit=5632
+Planning:
+  Buffers: shared hit=103
+Planning Time: 0.199 ms
+Execution Time: 14.958 ms
+=== R20 run 2 ===
+WindowAgg  (cost=9468.79..9642.70 rows=1226 width=68) (actual time=12.801..13.535 rows=31 loops=1)
+  Buffers: shared hit=5706
+  ->  Finalize GroupAggregate  (cost=9468.79..9624.31 rows=1226 width=36) (actual time=12.784..13.521 rows=31 loops=1)
+        Group Key: ((trips.requested_at)::date)
+        Buffers: shared hit=5706
+        ->  Gather Merge  (cost=9468.79..9598.25 rows=1022 width=36) (actual time=12.765..13.499 rows=93 loops=1)
+              Workers Planned: 2
+              Workers Launched: 2
+              Buffers: shared hit=5706
+              ->  Partial GroupAggregate  (cost=8468.77..8480.26 rows=511 width=36) (actual time=11.164..11.441 rows=31 loops=3)
+                    Group Key: ((trips.requested_at)::date)
+                    Buffers: shared hit=5706
+                    ->  Sort  (cost=8468.77..8470.04 rows=511 width=10) (actual time=11.148..11.233 rows=4667 loops=3)
+                          Sort Key: ((trips.requested_at)::date)
+                          Sort Method: quicksort  Memory: 376kB
+                          Buffers: shared hit=5706
+                          Worker 0:  Sort Method: quicksort  Memory: 374kB
+                          Worker 1:  Sort Method: quicksort  Memory: 375kB
+                          ->  Parallel Seq Scan on trips  (cost=0.00..8445.78 rows=511 width=10) (actual time=9.351..10.970 rows=4667 loops=3)
+                                Filter: (((status)::text = 'COMPLETED'::text) AND ((requested_at)::date >= '2026-05-01'::date) AND ((requested_at)::date <= '2026-05-31'::date))
+                                Rows Removed by Filter: 95333
+                                Buffers: shared hit=5632
+Planning:
+  Buffers: shared hit=103
+Planning Time: 0.185 ms
+Execution Time: 13.570 ms
+=== R20 run 3 ===
+WindowAgg  (cost=9468.79..9642.70 rows=1226 width=68) (actual time=12.873..13.819 rows=31 loops=1)
+  Buffers: shared hit=5706
+  ->  Finalize GroupAggregate  (cost=9468.79..9624.31 rows=1226 width=36) (actual time=12.860..13.804 rows=31 loops=1)
+        Group Key: ((trips.requested_at)::date)
+        Buffers: shared hit=5706
+        ->  Gather Merge  (cost=9468.79..9598.25 rows=1022 width=36) (actual time=12.831..13.782 rows=93 loops=1)
+              Workers Planned: 2
+              Workers Launched: 2
+              Buffers: shared hit=5706
+              ->  Partial GroupAggregate  (cost=8468.77..8480.26 rows=511 width=36) (actual time=11.210..11.486 rows=31 loops=3)
+                    Group Key: ((trips.requested_at)::date)
+                    Buffers: shared hit=5706
+                    ->  Sort  (cost=8468.77..8470.04 rows=511 width=10) (actual time=11.194..11.285 rows=4667 loops=3)
+                          Sort Key: ((trips.requested_at)::date)
+                          Sort Method: quicksort  Memory: 378kB
+                          Buffers: shared hit=5706
+                          Worker 0:  Sort Method: quicksort  Memory: 376kB
+                          Worker 1:  Sort Method: quicksort  Memory: 371kB
+                          ->  Parallel Seq Scan on trips  (cost=0.00..8445.78 rows=511 width=10) (actual time=9.380..11.011 rows=4667 loops=3)
+                                Filter: (((status)::text = 'COMPLETED'::text) AND ((requested_at)::date >= '2026-05-01'::date) AND ((requested_at)::date <= '2026-05-31'::date))
+                                Rows Removed by Filter: 95333
+                                Buffers: shared hit=5632
+Planning:
+  Buffers: shared hit=103
+Planning Time: 0.183 ms
+Execution Time: 13.853 ms
