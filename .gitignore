@@ -1,0 +1,20 @@
+# CSV seed data — too large, already on faculty's server
+seed_data/
+large_data/
+
+# macOS junk
+.DS_Store
+*.DS_Store
+
+# PostgreSQL dumps
+*.dump
+*.sql.gz
+
+# Python venvs
+venv/
+.venv/
+__pycache__/
+
+# IDE
+.vscode/
+.idea/
