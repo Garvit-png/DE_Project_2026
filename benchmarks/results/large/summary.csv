@@ -1,0 +1,31 @@
+query_id,type,optimized_seed_ms,projected_large_ms,growth_factor,meets_target,target_ms,notes
+R01,READ,0.372,0.8,2.2x,YES,5,Index seek scales with log(N)
+R02,READ,0.244,0.6,2.5x,YES,5,Index seek scales with log(N)
+R03,READ,0.260,0.4,1.5x,YES,5,Expression index seek constant
+R04,READ,0.965,1.2,1.2x,YES,5,Partition pruning — 1 partition instead of 18
+R05,READ,0.060,0.1,1.7x,YES,5,Partial index stays tiny (active trips ~0.1%)
+R06,READ,8.261,10.0,1.2x,YES,5000,Partition pruning — 1 month partition
+R07,READ,11.564,14.0,1.2x,YES,5000,Partition pruning on date range
+R08,READ,34.526,650.0,18.8x,YES,5000,Payments grows 20x; index helps but analytics scan
+R09,READ,7.088,12.0,1.7x,YES,5000,Index seek + city filter
+R10,READ,0.977,1.5,1.5x,YES,250,Index seek scales with log(N)
+R11,READ,31.146,620.0,19.9x,YES,5000,Full ratings scan — grows linearly
+R12,READ,21.049,22.0,1.0x,YES,5000,Partition pruning on Delhi trips
+R13,READ,0.902,1.2,1.3x,YES,250,GIN index scales sublinearly
+R14,READ,0.041,0.05,1.2x,YES,5,UNIQUE index lookup — constant
+R15,READ,0.230,0.3,1.3x,YES,5,PK lookups — constant
+R16,READ,0.063,0.07,1.1x,YES,5,Keyset pagination — constant regardless of data size
+R17,READ,33.585,670.0,19.9x,YES,5000,Full scan — grows linearly with trips
+R18,READ,25.494,30.0,1.2x,YES,5000,JOIN scales with riders (600k), partitioned trips
+R19,READ,4.319,5.2,1.2x,YES,5000,Partition pruning on May 2026
+R20,READ,3.785,4.5,1.2x,YES,5000,Partition pruning on May 2026
+R21,READ,9.569,11.0,1.1x,YES,5000,Index on promo_code — selective
+R22,READ,0.607,0.8,1.3x,YES,250,Index on status+paid_at — selective
+R23,READ,51.072,1020.0,20x,YES,5000,Distinct count full 2026 scan
+R24,READ,13.396,267.0,19.9x,YES,5000,Full COMPLETED scan grows linearly
+R25,READ,18.460,369.0,20x,YES,5000,Full COMPLETED scan grows linearly
+W01,WRITE,1.031,1.5,1.5x,YES,5,INSERT with partition routing — minimal overhead
+W02,WRITE,1.243,1.8,1.4x,YES,5,Partial index stays fast
+W03,WRITE,6.726,130.0,19.3x,YES,1000,Drivers table grows 20x — need index on rating
+W04,WRITE,98.793,1950.0,19.7x,NO,1000,5000 inserts into 6M-row table; needs batching
+W05,WRITE,10.245,12.0,1.2x,YES,1000,Partial index on cancelled trips — grows with cancelled rows only
