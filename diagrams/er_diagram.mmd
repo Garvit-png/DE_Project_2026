@@ -1,0 +1,101 @@
+erDiagram
+    cities {
+        SMALLINT city_id PK
+        VARCHAR city_name
+        VARCHAR state
+        NUMERIC base_fare
+        NUMERIC per_km_rate
+        NUMERIC per_min_rate
+        DATE launched_on
+    }
+
+    riders {
+        INTEGER rider_id PK
+        VARCHAR full_name
+        VARCHAR email UK
+        CHAR phone UK
+        SMALLINT home_city_id FK
+        DATE signup_date
+        NUMERIC rider_rating
+        BOOLEAN is_active
+    }
+
+    drivers {
+        INTEGER driver_id PK
+        VARCHAR full_name
+        CHAR phone UK
+        VARCHAR license_no UK
+        SMALLINT city_id FK
+        DATE joined_on
+        NUMERIC driver_rating
+        VARCHAR status
+    }
+
+    vehicles {
+        INTEGER vehicle_id PK
+        INTEGER driver_id FK
+        VARCHAR registration_no UK
+        VARCHAR make
+        VARCHAR model
+        SMALLINT manufacture_year
+        VARCHAR vehicle_type
+        SMALLINT seat_capacity
+    }
+
+    promo_codes {
+        VARCHAR promo_code PK
+        SMALLINT discount_pct
+        NUMERIC max_discount
+        DATE valid_from
+        DATE valid_to
+        BOOLEAN is_active
+    }
+
+    trips {
+        INTEGER trip_id PK
+        INTEGER rider_id FK
+        INTEGER driver_id FK
+        INTEGER vehicle_id FK
+        SMALLINT city_id FK
+        VARCHAR promo_code FK
+        TIMESTAMPTZ requested_at
+        TIMESTAMPTZ pickup_at
+        TIMESTAMPTZ dropoff_at
+        NUMERIC pickup_lat
+        NUMERIC pickup_lng
+        NUMERIC drop_lat
+        NUMERIC drop_lng
+        NUMERIC distance_km
+        SMALLINT duration_min
+        NUMERIC surge_multiplier
+        NUMERIC fare_amount
+        VARCHAR status
+    }
+
+    payments {
+        INTEGER payment_id PK
+        INTEGER trip_id FK
+        NUMERIC amount
+        VARCHAR method
+        VARCHAR payment_status
+        TIMESTAMPTZ paid_at
+    }
+
+    ratings {
+        INTEGER trip_id PK_FK
+        VARCHAR rated_by PK
+        SMALLINT stars
+        TEXT comment
+        TIMESTAMPTZ created_at
+    }
+
+    cities ||--o{ riders       : "home city (1:N)"
+    cities ||--o{ drivers      : "operates in (1:N)"
+    cities ||--o{ trips        : "requested in (1:N)"
+    drivers ||--o{ vehicles    : "owns (1:N)"
+    riders ||--o{ trips        : "requests (1:N)"
+    drivers ||--o{ trips       : "accepts (1:N)"
+    vehicles ||--o{ trips      : "used in (1:N)"
+    promo_codes ||--o{ trips   : "applied to (1:N)"
+    trips ||--o{ payments      : "paid via (1:N)"
+    trips ||--o{ ratings       : "rated as (1:2)"
