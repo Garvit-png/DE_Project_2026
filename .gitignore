@@ -2,6 +2,9 @@
 seed_data/
 large_data/
 
+# Personal viva notes — private
+WHAT_I_DID.md
+
 # macOS junk
 .DS_Store
 *.DS_Store
