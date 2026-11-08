@@ -1,0 +1,45 @@
+=== R23 run 1 ===
+GroupAggregate  (cost=13084.99..15293.95 rows=98176 width=18) (actual time=55.080..61.919 rows=60 loops=1)
+  Group Key: city_id, (date_trunc('month'::text, requested_at))
+  Buffers: shared hit=2006 read=137 written=1, temp read=366 written=367
+  ->  Sort  (cost=13084.99..13330.43 rows=98176 width=14) (actual time=54.874..58.083 rows=99450 loops=1)
+        Sort Key: city_id, (date_trunc('month'::text, requested_at)), rider_id
+        Sort Method: external merge  Disk: 2928kB
+        Buffers: shared hit=2006 read=137 written=1, temp read=366 written=367
+        ->  Index Scan using idx_trips_requested_at on trips  (cost=0.42..4944.68 rows=98176 width=14) (actual time=0.655..21.383 rows=99450 loops=1)
+              Index Cond: (requested_at >= '2026-01-01 00:00:00+05:30'::timestamp with time zone)
+              Buffers: shared hit=1997 read=137 written=1
+Planning:
+  Buffers: shared hit=298
+Planning Time: 0.762 ms
+Execution Time: 62.545 ms
+=== R23 run 2 ===
+GroupAggregate  (cost=13084.99..15293.95 rows=98176 width=18) (actual time=38.601..44.870 rows=60 loops=1)
+  Group Key: city_id, (date_trunc('month'::text, requested_at))
+  Buffers: shared hit=2142 read=1, temp read=366 written=367
+  ->  Sort  (cost=13084.99..13330.43 rows=98176 width=14) (actual time=38.427..41.344 rows=99450 loops=1)
+        Sort Key: city_id, (date_trunc('month'::text, requested_at)), rider_id
+        Sort Method: external merge  Disk: 2928kB
+        Buffers: shared hit=2142 read=1, temp read=366 written=367
+        ->  Index Scan using idx_trips_requested_at on trips  (cost=0.42..4944.68 rows=98176 width=14) (actual time=0.012..13.577 rows=99450 loops=1)
+              Index Cond: (requested_at >= '2026-01-01 00:00:00+05:30'::timestamp with time zone)
+              Buffers: shared hit=2133 read=1
+Planning:
+  Buffers: shared hit=298
+Planning Time: 0.486 ms
+Execution Time: 45.470 ms
+=== R23 run 3 ===
+GroupAggregate  (cost=13084.99..15293.95 rows=98176 width=18) (actual time=38.052..44.569 rows=60 loops=1)
+  Group Key: city_id, (date_trunc('month'::text, requested_at))
+  Buffers: shared hit=2143, temp read=366 written=367
+  ->  Sort  (cost=13084.99..13330.43 rows=98176 width=14) (actual time=37.873..40.920 rows=99450 loops=1)
+        Sort Key: city_id, (date_trunc('month'::text, requested_at)), rider_id
+        Sort Method: external merge  Disk: 2928kB
+        Buffers: shared hit=2143, temp read=366 written=367
+        ->  Index Scan using idx_trips_requested_at on trips  (cost=0.42..4944.68 rows=98176 width=14) (actual time=0.009..12.847 rows=99450 loops=1)
+              Index Cond: (requested_at >= '2026-01-01 00:00:00+05:30'::timestamp with time zone)
+              Buffers: shared hit=2134
+Planning:
+  Buffers: shared hit=298
+Planning Time: 0.454 ms
+Execution Time: 45.202 ms

@@ -1,0 +1,42 @@
+=== R02 run 1 ===
+GroupAggregate  (cost=4.48..20.28 rows=1 width=44) (actual time=0.512..0.514 rows=1 loops=1)
+  Buffers: shared hit=5 read=3
+  ->  Bitmap Heap Scan on trips  (cost=4.48..20.25 rows=4 width=10) (actual time=0.486..0.503 rows=5 loops=1)
+        Recheck Cond: ((driver_id = 217) AND ((status)::text = 'COMPLETED'::text) AND (requested_at >= '2026-03-01 00:00:00+05:30'::timestamp with time zone) AND (requested_at < '2026-04-01 00:00:00+05:30'::timestamp with time zone))
+        Heap Blocks: exact=5
+        Buffers: shared hit=5 read=3
+        ->  Bitmap Index Scan on idx_trips_driver_status_requested  (cost=0.00..4.48 rows=4 width=0) (actual time=0.475..0.475 rows=5 loops=1)
+              Index Cond: ((driver_id = 217) AND ((status)::text = 'COMPLETED'::text) AND (requested_at >= '2026-03-01 00:00:00+05:30'::timestamp with time zone) AND (requested_at < '2026-04-01 00:00:00+05:30'::timestamp with time zone))
+              Buffers: shared read=3
+Planning:
+  Buffers: shared hit=325 dirtied=2
+Planning Time: 1.236 ms
+Execution Time: 0.558 ms
+=== R02 run 2 ===
+GroupAggregate  (cost=4.48..20.28 rows=1 width=44) (actual time=0.041..0.043 rows=1 loops=1)
+  Buffers: shared hit=8
+  ->  Bitmap Heap Scan on trips  (cost=4.48..20.25 rows=4 width=10) (actual time=0.024..0.033 rows=5 loops=1)
+        Recheck Cond: ((driver_id = 217) AND ((status)::text = 'COMPLETED'::text) AND (requested_at >= '2026-03-01 00:00:00+05:30'::timestamp with time zone) AND (requested_at < '2026-04-01 00:00:00+05:30'::timestamp with time zone))
+        Heap Blocks: exact=5
+        Buffers: shared hit=8
+        ->  Bitmap Index Scan on idx_trips_driver_status_requested  (cost=0.00..4.48 rows=4 width=0) (actual time=0.019..0.019 rows=5 loops=1)
+              Index Cond: ((driver_id = 217) AND ((status)::text = 'COMPLETED'::text) AND (requested_at >= '2026-03-01 00:00:00+05:30'::timestamp with time zone) AND (requested_at < '2026-04-01 00:00:00+05:30'::timestamp with time zone))
+              Buffers: shared hit=3
+Planning:
+  Buffers: shared hit=325
+Planning Time: 2.161 ms
+Execution Time: 0.082 ms
+=== R02 run 3 ===
+GroupAggregate  (cost=4.48..20.28 rows=1 width=44) (actual time=0.049..0.051 rows=1 loops=1)
+  Buffers: shared hit=8
+  ->  Bitmap Heap Scan on trips  (cost=4.48..20.25 rows=4 width=10) (actual time=0.028..0.039 rows=5 loops=1)
+        Recheck Cond: ((driver_id = 217) AND ((status)::text = 'COMPLETED'::text) AND (requested_at >= '2026-03-01 00:00:00+05:30'::timestamp with time zone) AND (requested_at < '2026-04-01 00:00:00+05:30'::timestamp with time zone))
+        Heap Blocks: exact=5
+        Buffers: shared hit=8
+        ->  Bitmap Index Scan on idx_trips_driver_status_requested  (cost=0.00..4.48 rows=4 width=0) (actual time=0.022..0.022 rows=5 loops=1)
+              Index Cond: ((driver_id = 217) AND ((status)::text = 'COMPLETED'::text) AND (requested_at >= '2026-03-01 00:00:00+05:30'::timestamp with time zone) AND (requested_at < '2026-04-01 00:00:00+05:30'::timestamp with time zone))
+              Buffers: shared hit=3
+Planning:
+  Buffers: shared hit=325
+Planning Time: 1.229 ms
+Execution Time: 0.093 ms

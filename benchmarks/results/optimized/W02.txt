@@ -1,0 +1,60 @@
+=== W02 run 1 ===
+Update on trips  (cost=0.68..8.70 rows=0 width=0) (actual time=2.847..2.848 rows=0 loops=1)
+  Buffers: shared hit=67 read=12 dirtied=7
+  InitPlan 2 (returns $1)
+    ->  Result  (cost=0.25..0.26 rows=1 width=4) (actual time=0.335..0.335 rows=1 loops=1)
+          Buffers: shared hit=2 read=1
+          InitPlan 1 (returns $0)
+            ->  Limit  (cost=0.14..0.25 rows=1 width=4) (actual time=0.333..0.333 rows=1 loops=1)
+                  Buffers: shared hit=2 read=1
+                  ->  Index Only Scan using idx_trips_ongoing on trips trips_1  (cost=0.14..14.60 rows=140 width=4) (actual time=0.332..0.332 rows=1 loops=1)
+                        Index Cond: (trip_id IS NOT NULL)
+                        Heap Fetches: 1
+                        Buffers: shared hit=2 read=1
+  ->  Index Scan using trips_pkey on trips  (cost=0.42..8.44 rows=1 width=104) (actual time=0.346..0.346 rows=1 loops=1)
+        Index Cond: (trip_id = $1)
+        Buffers: shared hit=8 read=1
+Planning:
+  Buffers: shared hit=357
+Planning Time: 0.664 ms
+Execution Time: 3.081 ms
+=== W02 run 2 ===
+Update on trips  (cost=0.68..8.70 rows=0 width=0) (actual time=0.254..0.256 rows=0 loops=1)
+  Buffers: shared hit=79
+  InitPlan 2 (returns $1)
+    ->  Result  (cost=0.25..0.26 rows=1 width=4) (actual time=0.039..0.039 rows=1 loops=1)
+          Buffers: shared hit=3
+          InitPlan 1 (returns $0)
+            ->  Limit  (cost=0.14..0.25 rows=1 width=4) (actual time=0.037..0.037 rows=1 loops=1)
+                  Buffers: shared hit=3
+                  ->  Index Only Scan using idx_trips_ongoing on trips trips_1  (cost=0.14..14.60 rows=140 width=4) (actual time=0.036..0.036 rows=1 loops=1)
+                        Index Cond: (trip_id IS NOT NULL)
+                        Heap Fetches: 1
+                        Buffers: shared hit=3
+  ->  Index Scan using trips_pkey on trips  (cost=0.42..8.44 rows=1 width=104) (actual time=0.053..0.053 rows=1 loops=1)
+        Index Cond: (trip_id = $1)
+        Buffers: shared hit=9
+Planning:
+  Buffers: shared hit=357
+Planning Time: 0.741 ms
+Execution Time: 0.329 ms
+=== W02 run 3 ===
+Update on trips  (cost=0.68..8.70 rows=0 width=0) (actual time=0.258..0.260 rows=0 loops=1)
+  Buffers: shared hit=79
+  InitPlan 2 (returns $1)
+    ->  Result  (cost=0.25..0.26 rows=1 width=4) (actual time=0.038..0.038 rows=1 loops=1)
+          Buffers: shared hit=3
+          InitPlan 1 (returns $0)
+            ->  Limit  (cost=0.14..0.25 rows=1 width=4) (actual time=0.036..0.036 rows=1 loops=1)
+                  Buffers: shared hit=3
+                  ->  Index Only Scan using idx_trips_ongoing on trips trips_1  (cost=0.14..14.60 rows=140 width=4) (actual time=0.036..0.036 rows=1 loops=1)
+                        Index Cond: (trip_id IS NOT NULL)
+                        Heap Fetches: 1
+                        Buffers: shared hit=3
+  ->  Index Scan using trips_pkey on trips  (cost=0.42..8.44 rows=1 width=104) (actual time=0.052..0.053 rows=1 loops=1)
+        Index Cond: (trip_id = $1)
+        Buffers: shared hit=9
+Planning:
+  Buffers: shared hit=357
+Planning Time: 0.659 ms
+Execution Time: 0.318 ms

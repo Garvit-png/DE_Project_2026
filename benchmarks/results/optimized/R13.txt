@@ -1,0 +1,54 @@
+=== R13 run 1 ===
+Limit  (cost=455.67..455.79 rows=50 width=27) (actual time=0.878..0.882 rows=50 loops=1)
+  Buffers: shared hit=108
+  ->  Sort  (cost=455.67..456.42 rows=302 width=27) (actual time=0.878..0.879 rows=50 loops=1)
+        Sort Key: full_name
+        Sort Method: top-N heapsort  Memory: 30kB
+        Buffers: shared hit=108
+        ->  Bitmap Heap Scan on riders  (cost=40.38..445.63 rows=302 width=27) (actual time=0.117..0.527 rows=1500 loops=1)
+              Recheck Cond: ((full_name)::text ~~* '%sharma%'::text)
+              Heap Blocks: exact=93
+              Buffers: shared hit=105
+              ->  Bitmap Index Scan on idx_riders_name_trgm  (cost=0.00..40.31 rows=302 width=0) (actual time=0.109..0.109 rows=1500 loops=1)
+                    Index Cond: ((full_name)::text ~~* '%sharma%'::text)
+                    Buffers: shared hit=12
+Planning:
+  Buffers: shared hit=191
+Planning Time: 1.318 ms
+Execution Time: 0.918 ms
+=== R13 run 2 ===
+Limit  (cost=455.67..455.79 rows=50 width=27) (actual time=0.895..0.898 rows=50 loops=1)
+  Buffers: shared hit=108
+  ->  Sort  (cost=455.67..456.42 rows=302 width=27) (actual time=0.894..0.896 rows=50 loops=1)
+        Sort Key: full_name
+        Sort Method: top-N heapsort  Memory: 30kB
+        Buffers: shared hit=108
+        ->  Bitmap Heap Scan on riders  (cost=40.38..445.63 rows=302 width=27) (actual time=0.115..0.535 rows=1500 loops=1)
+              Recheck Cond: ((full_name)::text ~~* '%sharma%'::text)
+              Heap Blocks: exact=93
+              Buffers: shared hit=105
+              ->  Bitmap Index Scan on idx_riders_name_trgm  (cost=0.00..40.31 rows=302 width=0) (actual time=0.106..0.106 rows=1500 loops=1)
+                    Index Cond: ((full_name)::text ~~* '%sharma%'::text)
+                    Buffers: shared hit=12
+Planning:
+  Buffers: shared hit=189
+Planning Time: 0.747 ms
+Execution Time: 0.936 ms
+=== R13 run 3 ===
+Limit  (cost=455.67..455.79 rows=50 width=27) (actual time=0.816..0.819 rows=50 loops=1)
+  Buffers: shared hit=108
+  ->  Sort  (cost=455.67..456.42 rows=302 width=27) (actual time=0.815..0.816 rows=50 loops=1)
+        Sort Key: full_name
+        Sort Method: top-N heapsort  Memory: 30kB
+        Buffers: shared hit=108
+        ->  Bitmap Heap Scan on riders  (cost=40.38..445.63 rows=302 width=27) (actual time=0.107..0.488 rows=1500 loops=1)
+              Recheck Cond: ((full_name)::text ~~* '%sharma%'::text)
+              Heap Blocks: exact=93
+              Buffers: shared hit=105
+              ->  Bitmap Index Scan on idx_riders_name_trgm  (cost=0.00..40.31 rows=302 width=0) (actual time=0.099..0.099 rows=1500 loops=1)
+                    Index Cond: ((full_name)::text ~~* '%sharma%'::text)
+                    Buffers: shared hit=12
+Planning:
+  Buffers: shared hit=189
+Planning Time: 0.744 ms
+Execution Time: 0.853 ms

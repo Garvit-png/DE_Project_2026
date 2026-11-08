@@ -1,0 +1,66 @@
+=== R04 run 1 ===
+Sort  (cost=40.40..40.55 rows=59 width=29) (actual time=2.198..2.206 rows=81 loops=1)
+  Sort Key: t.requested_at
+  Sort Method: quicksort  Memory: 29kB
+  Buffers: shared hit=16 read=5
+  ->  Hash Join  (cost=1.56..38.67 rows=59 width=29) (actual time=1.607..2.120 rows=81 loops=1)
+        Hash Cond: (t.city_id = c.city_id)
+        Buffers: shared hit=13 read=5
+        ->  Index Scan using idx_trips_requested_at on trips t  (cost=0.42..35.32 rows=591 width=31) (actual time=1.558..2.014 rows=550 loops=1)
+              Index Cond: ((requested_at >= '2026-05-10 00:00:00+05:30'::timestamp with time zone) AND (requested_at < '2026-05-11 00:00:00+05:30'::timestamp with time zone))
+              Buffers: shared hit=12 read=5
+        ->  Hash  (cost=1.12..1.12 rows=1 width=2) (actual time=0.030..0.030 rows=1 loops=1)
+              Buckets: 1024  Batches: 1  Memory Usage: 9kB
+              Buffers: shared hit=1
+              ->  Seq Scan on cities c  (cost=0.00..1.12 rows=1 width=2) (actual time=0.016..0.018 rows=1 loops=1)
+                    Filter: ((city_name)::text = 'Bengaluru'::text)
+                    Rows Removed by Filter: 9
+                    Buffers: shared hit=1
+Planning:
+  Buffers: shared hit=428 dirtied=1
+Planning Time: 12.699 ms
+Execution Time: 2.341 ms
+=== R04 run 2 ===
+Sort  (cost=40.40..40.55 rows=59 width=29) (actual time=0.194..0.199 rows=81 loops=1)
+  Sort Key: t.requested_at
+  Sort Method: quicksort  Memory: 29kB
+  Buffers: shared hit=21
+  ->  Hash Join  (cost=1.56..38.67 rows=59 width=29) (actual time=0.049..0.170 rows=81 loops=1)
+        Hash Cond: (t.city_id = c.city_id)
+        Buffers: shared hit=18
+        ->  Index Scan using idx_trips_requested_at on trips t  (cost=0.42..35.32 rows=591 width=31) (actual time=0.026..0.098 rows=550 loops=1)
+              Index Cond: ((requested_at >= '2026-05-10 00:00:00+05:30'::timestamp with time zone) AND (requested_at < '2026-05-11 00:00:00+05:30'::timestamp with time zone))
+              Buffers: shared hit=17
+        ->  Hash  (cost=1.12..1.12 rows=1 width=2) (actual time=0.015..0.015 rows=1 loops=1)
+              Buckets: 1024  Batches: 1  Memory Usage: 9kB
+              Buffers: shared hit=1
+              ->  Seq Scan on cities c  (cost=0.00..1.12 rows=1 width=2) (actual time=0.009..0.010 rows=1 loops=1)
+                    Filter: ((city_name)::text = 'Bengaluru'::text)
+                    Rows Removed by Filter: 9
+                    Buffers: shared hit=1
+Planning:
+  Buffers: shared hit=428
+Planning Time: 1.875 ms
+Execution Time: 0.281 ms
+=== R04 run 3 ===
+Sort  (cost=40.40..40.55 rows=59 width=29) (actual time=0.218..0.225 rows=81 loops=1)
+  Sort Key: t.requested_at
+  Sort Method: quicksort  Memory: 29kB
+  Buffers: shared hit=21
+  ->  Hash Join  (cost=1.56..38.67 rows=59 width=29) (actual time=0.036..0.191 rows=81 loops=1)
+        Hash Cond: (t.city_id = c.city_id)
+        Buffers: shared hit=18
+        ->  Index Scan using idx_trips_requested_at on trips t  (cost=0.42..35.32 rows=591 width=31) (actual time=0.015..0.103 rows=550 loops=1)
+              Index Cond: ((requested_at >= '2026-05-10 00:00:00+05:30'::timestamp with time zone) AND (requested_at < '2026-05-11 00:00:00+05:30'::timestamp with time zone))
+              Buffers: shared hit=17
+        ->  Hash  (cost=1.12..1.12 rows=1 width=2) (actual time=0.014..0.014 rows=1 loops=1)
+              Buckets: 1024  Batches: 1  Memory Usage: 9kB
+              Buffers: shared hit=1
+              ->  Seq Scan on cities c  (cost=0.00..1.12 rows=1 width=2) (actual time=0.006..0.008 rows=1 loops=1)
+                    Filter: ((city_name)::text = 'Bengaluru'::text)
+                    Rows Removed by Filter: 9
+                    Buffers: shared hit=1
+Planning:
+  Buffers: shared hit=428
+Planning Time: 1.776 ms
+Execution Time: 0.274 ms

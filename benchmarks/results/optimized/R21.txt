@@ -1,0 +1,57 @@
+=== R21 run 1 ===
+Sort  (cost=3287.49..3287.59 rows=40 width=18) (actual time=10.270..10.273 rows=40 loops=1)
+  Sort Key: (count(t.trip_id)) DESC
+  Sort Method: quicksort  Memory: 26kB
+  Buffers: shared hit=18732 read=19
+  ->  GroupAggregate  (cost=0.43..3286.43 rows=40 width=18) (actual time=1.160..10.259 rows=40 loops=1)
+        Group Key: p.promo_code
+        Buffers: shared hit=18729 read=19
+        ->  Merge Left Join  (cost=0.43..1786.03 rows=300000 width=14) (actual time=0.343..9.607 rows=19973 loops=1)
+              Merge Cond: ((p.promo_code)::text = (t.promo_code)::text)
+              Buffers: shared hit=18729 read=19
+              ->  Index Scan using promo_codes_pkey on promo_codes p  (cost=0.14..12.74 rows=40 width=10) (actual time=0.001..0.005 rows=40 loops=1)
+                    Buffers: shared hit=2
+              ->  Index Scan using idx_trips_promo_code on trips t  (cost=0.29..23442.04 rows=300000 width=12) (actual time=0.339..8.262 rows=19973 loops=1)
+                    Buffers: shared hit=18727 read=19
+Planning:
+  Buffers: shared hit=404
+Planning Time: 0.658 ms
+Execution Time: 10.301 ms
+=== R21 run 2 ===
+Sort  (cost=3287.49..3287.59 rows=40 width=18) (actual time=9.280..9.282 rows=40 loops=1)
+  Sort Key: (count(t.trip_id)) DESC
+  Sort Method: quicksort  Memory: 26kB
+  Buffers: shared hit=18751
+  ->  GroupAggregate  (cost=0.43..3286.43 rows=40 width=18) (actual time=0.853..9.269 rows=40 loops=1)
+        Group Key: p.promo_code
+        Buffers: shared hit=18748
+        ->  Merge Left Join  (cost=0.43..1786.03 rows=300000 width=14) (actual time=0.017..8.520 rows=19973 loops=1)
+              Merge Cond: ((p.promo_code)::text = (t.promo_code)::text)
+              Buffers: shared hit=18748
+              ->  Index Scan using promo_codes_pkey on promo_codes p  (cost=0.14..12.74 rows=40 width=10) (actual time=0.001..0.004 rows=40 loops=1)
+                    Buffers: shared hit=2
+              ->  Index Scan using idx_trips_promo_code on trips t  (cost=0.29..23442.04 rows=300000 width=12) (actual time=0.013..7.053 rows=19973 loops=1)
+                    Buffers: shared hit=18746
+Planning:
+  Buffers: shared hit=404
+Planning Time: 0.704 ms
+Execution Time: 9.309 ms
+=== R21 run 3 ===
+Sort  (cost=3287.49..3287.59 rows=40 width=18) (actual time=9.064..9.069 rows=40 loops=1)
+  Sort Key: (count(t.trip_id)) DESC
+  Sort Method: quicksort  Memory: 26kB
+  Buffers: shared hit=18751
+  ->  GroupAggregate  (cost=0.43..3286.43 rows=40 width=18) (actual time=0.870..9.053 rows=40 loops=1)
+        Group Key: p.promo_code
+        Buffers: shared hit=18748
+        ->  Merge Left Join  (cost=0.43..1786.03 rows=300000 width=14) (actual time=0.014..8.335 rows=19973 loops=1)
+              Merge Cond: ((p.promo_code)::text = (t.promo_code)::text)
+              Buffers: shared hit=18748
+              ->  Index Scan using promo_codes_pkey on promo_codes p  (cost=0.14..12.74 rows=40 width=10) (actual time=0.001..0.004 rows=40 loops=1)
+                    Buffers: shared hit=2
+              ->  Index Scan using idx_trips_promo_code on trips t  (cost=0.29..23442.04 rows=300000 width=12) (actual time=0.010..6.889 rows=19973 loops=1)
+                    Buffers: shared hit=18746
+Planning:
+  Buffers: shared hit=404
+Planning Time: 0.769 ms
+Execution Time: 9.098 ms

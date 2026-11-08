@@ -1,0 +1,84 @@
+=== R18 run 1 ===
+Sort  (cost=10368.24..10374.24 rows=2400 width=24) (actual time=25.677..25.722 rows=2400 loops=1)
+  Sort Key: (max(t.requested_at)) DESC NULLS LAST
+  Sort Method: quicksort  Memory: 212kB
+  Buffers: shared hit=6169 read=3
+  ->  HashAggregate  (cost=10209.50..10233.50 rows=2400 width=24) (actual time=25.358..25.455 rows=2400 loops=1)
+        Group Key: r.rider_id
+        Batches: 1  Memory Usage: 369kB
+        Buffers: shared hit=6166 read=3
+        ->  Hash Right Join  (cost=506.89..10089.50 rows=24000 width=24) (actual time=0.891..23.748 rows=23772 loops=1)
+              Hash Cond: (t.rider_id = r.rider_id)
+              Buffers: shared hit=6166 read=3
+              ->  Seq Scan on trips t  (cost=0.00..8795.00 rows=300000 width=12) (actual time=0.005..9.554 rows=300000 loops=1)
+                    Buffers: shared hit=5795
+              ->  Hash  (cost=476.89..476.89 rows=2400 width=16) (actual time=0.879..0.879 rows=2400 loops=1)
+                    Buckets: 4096  Batches: 1  Memory Usage: 144kB
+                    Buffers: shared hit=371 read=3
+                    ->  Bitmap Heap Scan on riders r  (cost=30.89..476.89 rows=2400 width=16) (actual time=0.398..0.756 rows=2400 loops=1)
+                          Recheck Cond: (home_city_id = 6)
+                          Heap Blocks: exact=367
+                          Buffers: shared hit=371 read=3
+                          ->  Bitmap Index Scan on idx_riders_home_city  (cost=0.00..30.29 rows=2400 width=0) (actual time=0.378..0.378 rows=2400 loops=1)
+                                Index Cond: (home_city_id = 6)
+                                Buffers: shared hit=4 read=3
+Planning:
+  Buffers: shared hit=445
+Planning Time: 0.731 ms
+Execution Time: 25.794 ms
+=== R18 run 2 ===
+Sort  (cost=10368.24..10374.24 rows=2400 width=24) (actual time=25.454..25.499 rows=2400 loops=1)
+  Sort Key: (max(t.requested_at)) DESC NULLS LAST
+  Sort Method: quicksort  Memory: 212kB
+  Buffers: shared hit=6172
+  ->  HashAggregate  (cost=10209.50..10233.50 rows=2400 width=24) (actual time=25.131..25.227 rows=2400 loops=1)
+        Group Key: r.rider_id
+        Batches: 1  Memory Usage: 369kB
+        Buffers: shared hit=6169
+        ->  Hash Right Join  (cost=506.89..10089.50 rows=24000 width=24) (actual time=0.596..23.491 rows=23772 loops=1)
+              Hash Cond: (t.rider_id = r.rider_id)
+              Buffers: shared hit=6169
+              ->  Seq Scan on trips t  (cost=0.00..8795.00 rows=300000 width=12) (actual time=0.006..9.427 rows=300000 loops=1)
+                    Buffers: shared hit=5795
+              ->  Hash  (cost=476.89..476.89 rows=2400 width=16) (actual time=0.583..0.583 rows=2400 loops=1)
+                    Buckets: 4096  Batches: 1  Memory Usage: 144kB
+                    Buffers: shared hit=374
+                    ->  Bitmap Heap Scan on riders r  (cost=30.89..476.89 rows=2400 width=16) (actual time=0.060..0.447 rows=2400 loops=1)
+                          Recheck Cond: (home_city_id = 6)
+                          Heap Blocks: exact=367
+                          Buffers: shared hit=374
+                          ->  Bitmap Index Scan on idx_riders_home_city  (cost=0.00..30.29 rows=2400 width=0) (actual time=0.040..0.040 rows=2400 loops=1)
+                                Index Cond: (home_city_id = 6)
+                                Buffers: shared hit=7
+Planning:
+  Buffers: shared hit=445
+Planning Time: 0.775 ms
+Execution Time: 25.573 ms
+=== R18 run 3 ===
+Sort  (cost=10368.24..10374.24 rows=2400 width=24) (actual time=24.996..25.043 rows=2400 loops=1)
+  Sort Key: (max(t.requested_at)) DESC NULLS LAST
+  Sort Method: quicksort  Memory: 212kB
+  Buffers: shared hit=6172
+  ->  HashAggregate  (cost=10209.50..10233.50 rows=2400 width=24) (actual time=24.677..24.773 rows=2400 loops=1)
+        Group Key: r.rider_id
+        Batches: 1  Memory Usage: 369kB
+        Buffers: shared hit=6169
+        ->  Hash Right Join  (cost=506.89..10089.50 rows=24000 width=24) (actual time=0.543..23.120 rows=23772 loops=1)
+              Hash Cond: (t.rider_id = r.rider_id)
+              Buffers: shared hit=6169
+              ->  Seq Scan on trips t  (cost=0.00..8795.00 rows=300000 width=12) (actual time=0.006..9.528 rows=300000 loops=1)
+                    Buffers: shared hit=5795
+              ->  Hash  (cost=476.89..476.89 rows=2400 width=16) (actual time=0.530..0.531 rows=2400 loops=1)
+                    Buckets: 4096  Batches: 1  Memory Usage: 144kB
+                    Buffers: shared hit=374
+                    ->  Bitmap Heap Scan on riders r  (cost=30.89..476.89 rows=2400 width=16) (actual time=0.057..0.412 rows=2400 loops=1)
+                          Recheck Cond: (home_city_id = 6)
+                          Heap Blocks: exact=367
+                          Buffers: shared hit=374
+                          ->  Bitmap Index Scan on idx_riders_home_city  (cost=0.00..30.29 rows=2400 width=0) (actual time=0.039..0.039 rows=2400 loops=1)
+                                Index Cond: (home_city_id = 6)
+                                Buffers: shared hit=7
+Planning:
+  Buffers: shared hit=445
+Planning Time: 0.727 ms
+Execution Time: 25.116 ms

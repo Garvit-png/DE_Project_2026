@@ -1,0 +1,57 @@
+=== R08 run 1 ===
+GroupAggregate  (cost=12215.20..14370.53 rows=78343 width=52) (actual time=34.774..42.641 rows=24 loops=1)
+  Group Key: (date_trunc('month'::text, paid_at)), method
+  Buffers: shared hit=686 read=299, temp read=282 written=283
+  ->  Sort  (cost=12215.20..12411.23 rows=78415 width=18) (actual time=34.460..37.438 rows=77438 loops=1)
+        Sort Key: (date_trunc('month'::text, paid_at)), method
+        Sort Method: external merge  Disk: 2256kB
+        Buffers: shared hit=686 read=299, temp read=282 written=283
+        ->  Bitmap Heap Scan on payments  (cost=2216.21..5840.51 rows=78415 width=18) (actual time=6.106..19.100 rows=77438 loops=1)
+              Recheck Cond: (((payment_status)::text = 'SUCCESS'::text) AND (paid_at >= '2026-01-01 00:00:00+05:30'::timestamp with time zone) AND (paid_at < '2027-01-01 00:00:00+05:30'::timestamp with time zone))
+              Heap Blocks: exact=680
+              Buffers: shared hit=680 read=299
+              ->  Bitmap Index Scan on idx_payments_status_paid_at  (cost=0.00..2196.61 rows=78415 width=0) (actual time=6.023..6.023 rows=77438 loops=1)
+                    Index Cond: (((payment_status)::text = 'SUCCESS'::text) AND (paid_at >= '2026-01-01 00:00:00+05:30'::timestamp with time zone) AND (paid_at < '2027-01-01 00:00:00+05:30'::timestamp with time zone))
+                    Buffers: shared read=299
+Planning:
+  Buffers: shared hit=165 read=2
+Planning Time: 0.602 ms
+Execution Time: 43.117 ms
+=== R08 run 2 ===
+GroupAggregate  (cost=12215.20..14370.53 rows=78343 width=52) (actual time=24.333..30.369 rows=24 loops=1)
+  Group Key: (date_trunc('month'::text, paid_at)), method
+  Buffers: shared hit=985, temp read=282 written=283
+  ->  Sort  (cost=12215.20..12411.23 rows=78415 width=18) (actual time=24.094..26.391 rows=77438 loops=1)
+        Sort Key: (date_trunc('month'::text, paid_at)), method
+        Sort Method: external merge  Disk: 2256kB
+        Buffers: shared hit=985, temp read=282 written=283
+        ->  Bitmap Heap Scan on payments  (cost=2216.21..5840.51 rows=78415 width=18) (actual time=4.128..12.928 rows=77438 loops=1)
+              Recheck Cond: (((payment_status)::text = 'SUCCESS'::text) AND (paid_at >= '2026-01-01 00:00:00+05:30'::timestamp with time zone) AND (paid_at < '2027-01-01 00:00:00+05:30'::timestamp with time zone))
+              Heap Blocks: exact=680
+              Buffers: shared hit=979
+              ->  Bitmap Index Scan on idx_payments_status_paid_at  (cost=0.00..2196.61 rows=78415 width=0) (actual time=4.078..4.078 rows=77438 loops=1)
+                    Index Cond: (((payment_status)::text = 'SUCCESS'::text) AND (paid_at >= '2026-01-01 00:00:00+05:30'::timestamp with time zone) AND (paid_at < '2027-01-01 00:00:00+05:30'::timestamp with time zone))
+                    Buffers: shared hit=299
+Planning:
+  Buffers: shared hit=159
+Planning Time: 0.247 ms
+Execution Time: 30.845 ms
+=== R08 run 3 ===
+GroupAggregate  (cost=12215.20..14370.53 rows=78343 width=52) (actual time=23.211..29.137 rows=24 loops=1)
+  Group Key: (date_trunc('month'::text, paid_at)), method
+  Buffers: shared hit=985, temp read=282 written=283
+  ->  Sort  (cost=12215.20..12411.23 rows=78415 width=18) (actual time=22.985..25.280 rows=77438 loops=1)
+        Sort Key: (date_trunc('month'::text, paid_at)), method
+        Sort Method: external merge  Disk: 2256kB
+        Buffers: shared hit=985, temp read=282 written=283
+        ->  Bitmap Heap Scan on payments  (cost=2216.21..5840.51 rows=78415 width=18) (actual time=3.234..11.013 rows=77438 loops=1)
+              Recheck Cond: (((payment_status)::text = 'SUCCESS'::text) AND (paid_at >= '2026-01-01 00:00:00+05:30'::timestamp with time zone) AND (paid_at < '2027-01-01 00:00:00+05:30'::timestamp with time zone))
+              Heap Blocks: exact=680
+              Buffers: shared hit=979
+              ->  Bitmap Index Scan on idx_payments_status_paid_at  (cost=0.00..2196.61 rows=78415 width=0) (actual time=3.193..3.194 rows=77438 loops=1)
+                    Index Cond: (((payment_status)::text = 'SUCCESS'::text) AND (paid_at >= '2026-01-01 00:00:00+05:30'::timestamp with time zone) AND (paid_at < '2027-01-01 00:00:00+05:30'::timestamp with time zone))
+                    Buffers: shared hit=299
+Planning:
+  Buffers: shared hit=159
+Planning Time: 0.255 ms
+Execution Time: 29.617 ms

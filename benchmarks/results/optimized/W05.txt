@@ -1,0 +1,39 @@
+=== W05 run 1 ===
+Delete on trips  (cost=0.29..166.98 rows=0 width=0) (actual time=2.017..2.018 rows=0 loops=1)
+  Buffers: shared hit=6654 read=10
+  ->  Index Scan using idx_trips_cancelled_requested on trips  (cost=0.29..166.98 rows=3217 width=6) (actual time=0.103..0.816 rows=3165 loops=1)
+        Index Cond: (requested_at < '2025-02-01 00:00:00+05:30'::timestamp with time zone)
+        Filter: ((status)::text ~~ 'CANCELLED%'::text)
+        Buffers: shared hit=319 read=10
+Planning:
+  Buffers: shared hit=275 read=4
+Planning Time: 1.010 ms
+Trigger for constraint payments_trip_id_fkey: time=4.810 calls=3165
+Trigger for constraint ratings_trip_id_fkey: time=4.347 calls=3165
+Execution Time: 11.349 ms
+=== W05 run 2 ===
+Delete on trips  (cost=0.29..166.98 rows=0 width=0) (actual time=1.368..1.369 rows=0 loops=1)
+  Buffers: shared hit=6664
+  ->  Index Scan using idx_trips_cancelled_requested on trips  (cost=0.29..166.98 rows=3217 width=6) (actual time=0.011..0.695 rows=3165 loops=1)
+        Index Cond: (requested_at < '2025-02-01 00:00:00+05:30'::timestamp with time zone)
+        Filter: ((status)::text ~~ 'CANCELLED%'::text)
+        Buffers: shared hit=329
+Planning:
+  Buffers: shared hit=279
+Planning Time: 0.441 ms
+Trigger for constraint payments_trip_id_fkey: time=4.084 calls=3165
+Trigger for constraint ratings_trip_id_fkey: time=4.075 calls=3165
+Execution Time: 9.689 ms
+=== W05 run 3 ===
+Delete on trips  (cost=0.29..166.98 rows=0 width=0) (actual time=1.380..1.381 rows=0 loops=1)
+  Buffers: shared hit=6664
+  ->  Index Scan using idx_trips_cancelled_requested on trips  (cost=0.29..166.98 rows=3217 width=6) (actual time=0.012..0.715 rows=3165 loops=1)
+        Index Cond: (requested_at < '2025-02-01 00:00:00+05:30'::timestamp with time zone)
+        Filter: ((status)::text ~~ 'CANCELLED%'::text)
+        Buffers: shared hit=329
+Planning:
+  Buffers: shared hit=279
+Planning Time: 0.456 ms
+Trigger for constraint payments_trip_id_fkey: time=4.100 calls=3165
+Trigger for constraint ratings_trip_id_fkey: time=4.052 calls=3165
+Execution Time: 9.698 ms

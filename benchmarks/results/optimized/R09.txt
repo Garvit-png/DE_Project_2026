@@ -1,0 +1,63 @@
+=== R09 run 1 ===
+Hash Right Anti Join  (cost=593.91..3618.80 rows=291 width=41) (actual time=8.311..8.382 rows=893 loops=1)
+  Hash Cond: (t.rider_id = r.rider_id)
+  Buffers: shared hit=1311 read=139
+  ->  Index Scan using idx_trips_requested_at on trips t  (cost=0.42..2377.39 rows=49554 width=4) (actual time=0.155..4.472 rows=50000 loops=1)
+        Index Cond: (requested_at >= '2026-04-01 00:00:00+05:30'::timestamp with time zone)
+        Buffers: shared hit=941 read=133
+  ->  Hash  (cost=533.49..533.49 rows=4800 width=41) (actual time=1.618..1.620 rows=4800 loops=1)
+        Buckets: 8192  Batches: 1  Memory Usage: 407kB
+        Buffers: shared hit=370 read=6
+        ->  Bitmap Heap Scan on riders r  (cost=57.49..533.49 rows=4800 width=41) (actual time=0.595..1.330 rows=4800 loops=1)
+              Recheck Cond: (home_city_id = 1)
+              Heap Blocks: exact=367
+              Buffers: shared hit=370 read=6
+              ->  Bitmap Index Scan on idx_riders_home_city  (cost=0.00..56.29 rows=4800 width=0) (actual time=0.574..0.574 rows=4800 loops=1)
+                    Index Cond: (home_city_id = 1)
+                    Buffers: shared hit=3 read=6
+Planning:
+  Buffers: shared hit=539 read=3
+Planning Time: 1.274 ms
+Execution Time: 8.418 ms
+=== R09 run 2 ===
+Hash Right Anti Join  (cost=593.91..3618.80 rows=291 width=41) (actual time=6.326..6.395 rows=893 loops=1)
+  Hash Cond: (t.rider_id = r.rider_id)
+  Buffers: shared hit=1450
+  ->  Index Scan using idx_trips_requested_at on trips t  (cost=0.42..2377.39 rows=49554 width=4) (actual time=0.010..3.054 rows=50000 loops=1)
+        Index Cond: (requested_at >= '2026-04-01 00:00:00+05:30'::timestamp with time zone)
+        Buffers: shared hit=1074
+  ->  Hash  (cost=533.49..533.49 rows=4800 width=41) (actual time=0.969..0.969 rows=4800 loops=1)
+        Buckets: 8192  Batches: 1  Memory Usage: 407kB
+        Buffers: shared hit=376
+        ->  Bitmap Heap Scan on riders r  (cost=57.49..533.49 rows=4800 width=41) (actual time=0.082..0.638 rows=4800 loops=1)
+              Recheck Cond: (home_city_id = 1)
+              Heap Blocks: exact=367
+              Buffers: shared hit=376
+              ->  Bitmap Index Scan on idx_riders_home_city  (cost=0.00..56.29 rows=4800 width=0) (actual time=0.061..0.061 rows=4800 loops=1)
+                    Index Cond: (home_city_id = 1)
+                    Buffers: shared hit=9
+Planning:
+  Buffers: shared hit=540
+Planning Time: 0.815 ms
+Execution Time: 6.431 ms
+=== R09 run 3 ===
+Hash Right Anti Join  (cost=593.91..3618.80 rows=291 width=41) (actual time=6.310..6.378 rows=893 loops=1)
+  Hash Cond: (t.rider_id = r.rider_id)
+  Buffers: shared hit=1450
+  ->  Index Scan using idx_trips_requested_at on trips t  (cost=0.42..2377.39 rows=49554 width=4) (actual time=0.009..3.079 rows=50000 loops=1)
+        Index Cond: (requested_at >= '2026-04-01 00:00:00+05:30'::timestamp with time zone)
+        Buffers: shared hit=1074
+  ->  Hash  (cost=533.49..533.49 rows=4800 width=41) (actual time=1.014..1.014 rows=4800 loops=1)
+        Buckets: 8192  Batches: 1  Memory Usage: 407kB
+        Buffers: shared hit=376
+        ->  Bitmap Heap Scan on riders r  (cost=57.49..533.49 rows=4800 width=41) (actual time=0.088..0.658 rows=4800 loops=1)
+              Recheck Cond: (home_city_id = 1)
+              Heap Blocks: exact=367
+              Buffers: shared hit=376
+              ->  Bitmap Index Scan on idx_riders_home_city  (cost=0.00..56.29 rows=4800 width=0) (actual time=0.069..0.069 rows=4800 loops=1)
+                    Index Cond: (home_city_id = 1)
+                    Buffers: shared hit=9
+Planning:
+  Buffers: shared hit=540
+Planning Time: 0.853 ms
+Execution Time: 6.415 ms
