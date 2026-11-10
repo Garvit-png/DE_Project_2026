@@ -68,7 +68,7 @@ To: `Bitmap Index Scan on idx_riders_home_city → Hash Join → Seq Scan on tri
 
 **Before:** `ORDER BY trip_id DESC OFFSET 200000 LIMIT 25` — PostgreSQL must traverse 200,025 index entries to return 25 rows.
 
-**After:** `WHERE trip_id <= 100000 ORDER BY trip_id DESC LIMIT 25` — single index seek, returns 25 rows immediately. The client remembers the last `trip_id` seen.
+**After:** `WHERE trip_id <= 100001 ORDER BY trip_id DESC LIMIT 25` — single index seek, returns 25 rows immediately. The client remembers the last `trip_id` seen.
 
 ---
 
