@@ -1,6 +1,6 @@
 # Phase 5 – Scalability Report
 
-**Team:** T0001 | **Database:** uber_db (PostgreSQL 16.15) | **Machine:** MacBook Pro M4  
+**Team:** T0001 | **Lead:** Garvit Gandhi | **Members:** Japinder Kaur, Vansh Adhlakha, Keshav | **Database:** uber_db (PostgreSQL 16.15) | **Machine:** MacBook Pro M4  
 **Seed data:** 300k trips · 30k riders · 3k drivers | **Large data (projected 20×):** 6M trips · 600k riders · 60k drivers  
 **Status:** Partitioning DDL complete and verified on seed data. Large dataset numbers are projected from measured growth rates and partition pruning analysis (faculty large_data.zip not yet released as of submission).
 
