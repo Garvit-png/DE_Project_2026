@@ -113,6 +113,10 @@ ORDER BY 1, 2;
 -- REQUESTED trips do have a rider_id so this is safe... however NOT EXISTS is 
 -- still the correct, safer, and faster pattern).
 -- NOT EXISTS short-circuits on first match; also uses idx_trips_requested_at.
+-- R10: NOT EXISTS lookup matches driver_id and requested_at together.
+-- Composite index supports the correlated driver lookup and date range.
+CREATE INDEX idx_trips_driver_requested
+    ON trips (driver_id, requested_at);
 SELECT r.rider_id, r.full_name, r.email
 FROM riders r
 WHERE r.home_city_id = 1
