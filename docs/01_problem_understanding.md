@@ -44,7 +44,7 @@ Our job is to:
 - **Business need:** Users type their email in any case (UPPERCASE, lowercase, Mixed). Login must work regardless, and it must be fast.
 - **Type:** Customer-facing / real-time
 - **Performance target:** Under 5 ms on large data
-- **Root cause (likely):** A regular index on `email` does not help when the query uses `LOWER(email) = ...`. Need a function-based index on `LOWER(email)`.
+- **Root cause (likely):** A regular index on `email` does not help when the query uses `LOWER(email) = ...`. Need an expression index on `LOWER(email)`.
 
 ---
 
