@@ -129,6 +129,8 @@ DE_Project_2026/
         └── large/                          # CP4: projected large dataset summary.csv
 ```
 
+[View ER Diagram](diagrams/er_diagram.png)
+
 ---
 
 ## Checkpoint Status
