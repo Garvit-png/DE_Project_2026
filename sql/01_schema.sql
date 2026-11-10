@@ -191,8 +191,9 @@ CREATE TABLE trips (
 
 -- ---------------------------------------------------------------
 -- Table: payments
--- 245,839 payments.  One payment per completed trip (some trips
--- have no payment yet — e.g. cash trips where payment is pending).
+-- 245,839 payment records.  Each payment belongs to one trip,
+-- but the schema does not enforce one payment per trip.
+-- Some trips have no payment record yet (e.g. pending cash payments).
 -- ON DELETE CASCADE: if a trip is deleted, its payment goes too.
 -- ---------------------------------------------------------------
 CREATE TABLE payments (
