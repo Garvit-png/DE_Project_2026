@@ -1,6 +1,6 @@
 # Phase 2 – Schema Design
 
-**Team:** T0001 | **Lead:** Garvit Gandhi
+**Team:** T0001 | **Lead:** Garvit Gandhi | **Members:** Japinder Kaur, Vansh Adhlakha, Keshav
 
 ---
 

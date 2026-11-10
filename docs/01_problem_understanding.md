@@ -1,6 +1,6 @@
 # Phase 1 – Problem Understanding
 
-**Team:** T0001 | **Lead:** Garvit Gandhi | **Date:** November 2026
+**Team:** T0001 | **Lead:** Garvit Gandhi | **Members:** Japinder Kaur, Vansh Adhlakha, Keshav | **Date:** November 2026
 
 ---
 
@@ -74,7 +74,7 @@ Our job is to:
 - **Business need:** Marketing needs a list of riders who haven't taken a trip recently. Driver ops needs drivers who've gone inactive. Wrong lists mean money wasted on the wrong people or missing genuinely inactive users.
 - **Type:** Reporting / analytics
 - **Performance target:** Under 5,000 ms on large data
-- **Root cause (likely):** R09 uses `NOT IN (subquery)` — if the subquery returns even one NULL `rider_id`, the whole outer query returns zero rows (SQL's NULL-in-NOT-IN trap). This is the **wrong-result query** mentioned in Phase 4.
+- **Root cause (likely):** R10 uses `NOT IN (subquery)` where cancelled trips have `driver_id = NULL`. In SQL three-valued logic, any NULL in a `NOT IN` subquery causes the entire condition to evaluate to `UNKNOWN`, returning zero rows (the famous **wrong-result bug**). R09 also uses `NOT IN` and benefits from switching to `NOT EXISTS` for robustness and short-circuit execution.
 
 ---
 
