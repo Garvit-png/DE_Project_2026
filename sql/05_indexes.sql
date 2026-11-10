@@ -145,7 +145,7 @@ CREATE INDEX idx_ratings_rated_by_trip
 -- DRIVERS table indexes
 -- -------------------------------------------------------------
 
--- R03/R10/R07: WHERE status='ACTIVE' — partial index on active drivers only.
+-- R10, R07: WHERE status='ACTIVE' — partial index on active drivers only.
 CREATE INDEX idx_drivers_active
     ON drivers (driver_id)
     WHERE status = 'ACTIVE';

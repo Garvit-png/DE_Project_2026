@@ -1,6 +1,6 @@
 # Phase 4 – Optimization Report
 
-**Team:** T0001 | **Database:** uber_db (PostgreSQL 16.15) | **Machine:** MacBook Pro M4  
+**Team:** T0001 | **Lead:** Garvit Gandhi | **Members:** Japinder Kaur, Vansh Adhlakha, Keshav | **Database:** uber_db (PostgreSQL 16.15) | **Machine:** MacBook Pro M4  
 **Indexes file:** `sql/05_indexes.sql` | **Optimized queries:** `sql/06_optimized_queries.sql`  
 **Benchmark command:** `./benchmarks/run_benchmark.sh uber_db optimized 3 sql/06_optimized_queries.sql`
 
