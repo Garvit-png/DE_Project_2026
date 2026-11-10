@@ -164,6 +164,9 @@ CREATE TABLE IF NOT EXISTS trips_default PARTITION OF trips_partitioned DEFAULT;
 INSERT INTO trips_partitioned
 SELECT * FROM trips;
 
+-- Refresh planner statistics on partitioned table and child partitions
+ANALYZE trips_partitioned;
+
 -- Verify row counts match
 SELECT
     'trips (original)'    AS source, count(*) AS rows FROM trips
@@ -171,20 +174,23 @@ UNION ALL
 SELECT
     'trips_partitioned',  count(*) FROM trips_partitioned;
 
--- Verify partition sizes
+-- Verify exact row count distribution across partitions
 SELECT
-    child.relname AS partition,
-    pg_size_pretty(pg_relation_size(child.oid)) AS size,
-    (SELECT count(*) FROM trips_partitioned
-     WHERE requested_at >= p.relpartbound_start
-       AND requested_at < p.relpartbound_end) AS row_estimate
+    tableoid::regclass::text AS partition_name,
+    count(*) AS row_count
+FROM trips_partitioned
+GROUP BY tableoid
+ORDER BY partition_name;
+
+-- Verify partition storage sizes (table data, indexes, total)
+SELECT
+    child.relname AS partition_name,
+    pg_size_pretty(pg_relation_size(child.oid)) AS table_size,
+    pg_size_pretty(pg_indexes_size(child.oid)) AS index_size,
+    pg_size_pretty(pg_total_relation_size(child.oid)) AS total_size
 FROM pg_inherits
 JOIN pg_class child ON child.oid = pg_inherits.inhrelid
 JOIN pg_class parent ON parent.oid = pg_inherits.inhparent
-LEFT JOIN pg_partitioned_table pt ON pt.partrelid = parent.oid
-LEFT JOIN LATERAL (
-    SELECT null::timestamptz AS relpartbound_start, null::timestamptz AS relpartbound_end
-) p ON true
 WHERE parent.relname = 'trips_partitioned'
 ORDER BY child.relname;
 
@@ -210,6 +216,39 @@ CREATE INDEX IF NOT EXISTS idx_tp_driver_status_requested
 -- City + status index for city-level queries
 CREATE INDEX IF NOT EXISTS idx_tp_city_status_requested
     ON trips_partitioned (city_id, status, requested_at);
+
+-- Completed trips partial index with requested_at (serves R20 daily revenue)
+CREATE INDEX IF NOT EXISTS idx_tp_completed_requested
+    ON trips_partitioned (requested_at)
+    WHERE status = 'COMPLETED';
+
+-- Promo code lookup index (serves R21 promo usage)
+CREATE INDEX IF NOT EXISTS idx_tp_promo_code
+    ON trips_partitioned (promo_code)
+    WHERE promo_code IS NOT NULL;
+
+-- Completed trips fraud distance & duration index (serves R24)
+CREATE INDEX IF NOT EXISTS idx_tp_completed_distance_duration
+    ON trips_partitioned (distance_km, duration_min)
+    WHERE status = 'COMPLETED';
+
+-- Completed trips fare per km expression index (serves R25)
+CREATE INDEX IF NOT EXISTS idx_tp_fare_per_km
+    ON trips_partitioned ((fare_amount / NULLIF(distance_km, 0)))
+    WHERE status = 'COMPLETED';
+
+-- Ongoing trips partial index (serves W02)
+CREATE INDEX IF NOT EXISTS idx_tp_ongoing
+    ON trips_partitioned (trip_id)
+    WHERE status = 'ONGOING';
+
+-- Cancelled trips partial index with requested_at (serves W05 data retention)
+CREATE INDEX IF NOT EXISTS idx_tp_cancelled_requested
+    ON trips_partitioned (requested_at)
+    WHERE status LIKE 'CANCELLED%';
+
+-- Re-analyze to update index statistics across all partitions
+ANALYZE trips_partitioned;
 
 -- -------------------------------------------------------------
 -- Step 5: Verify partition pruning with EXPLAIN
