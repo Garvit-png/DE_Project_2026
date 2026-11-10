@@ -1,6 +1,6 @@
 # Phase 3 – Baseline Query Timings
 
-**Team:** T0001 | **Database:** uber_db (PostgreSQL 16.15) | **Machine:** MacBook Pro M4  
+**Team:** T0001 | **Lead:** Garvit Gandhi | **Members:** Japinder Kaur, Vansh Adhlakha, Keshav | **Database:** uber_db (PostgreSQL 16.15) | **Machine:** MacBook Pro M4  
 **Method:** `EXPLAIN (ANALYZE, BUFFERS)` · 3 runs each · average reported · write queries inside `BEGIN … ROLLBACK`  
 **Data:** 300,000 trips · 30,000 riders · 3,000 drivers · 3,300 vehicles · 245,839 payments · 307,214 ratings  
 **Indexes present:** Only those automatically created by PRIMARY KEY and UNIQUE constraints. No extra indexes.
@@ -95,4 +95,4 @@ Summary CSV: `benchmarks/results/baseline/summary.csv`
 
 4. **R14 is already fast (0.033 ms)** because the UNIQUE constraint on `registration_no` auto-created an index. This shows exactly what well-placed indexes can do.
 
-5. **R18 also contains a potential wrong-result bug** — the `NOT IN` pattern in R09 returns zero rows if any `rider_id` in the subquery is NULL (SQL NULL semantics). This is the wrong-result query we will fix in Phase 4.
+5. **R10 contains a critical wrong-result bug** — the `NOT IN (subquery)` pattern evaluates to `UNKNOWN` whenever any `driver_id` in the subquery is NULL (from cancelled trips without an assigned driver), causing the entire query to return 0 rows instead of 978. R09 also uses `NOT IN` and will be rewritten to `NOT EXISTS` in Phase 4.
