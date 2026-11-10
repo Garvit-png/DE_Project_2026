@@ -74,7 +74,7 @@ ORDER BY tbl;
 
 -- ---------------------------------------------------------------
 -- Integrity check 1:
---   Every completed trip must have exactly one payment.
+-- Every completed trip must have at least one payment.
 --   Result: 0 rows means the check passes.
 -- ---------------------------------------------------------------
 SELECT 'IC1: completed trips with no payment' AS check_name,
