@@ -21,8 +21,8 @@ SET search_path TO uber;
 
 -- R01: WHERE rider_id = ? ORDER BY requested_at DESC LIMIT 20
 -- Composite: equality on rider_id first, then sort column requested_at.
--- INCLUDE fare_amount, status, distance_km to enable Index Only Scan
--- for SELECT * (the planner can get most columns from the index).
+-- SELECT * still needs heap visits for columns that are not in the index;
+-- this index narrows the rider's trips and supplies newest-first ordering.
 CREATE INDEX idx_trips_rider_requested
     ON trips (rider_id, requested_at DESC);
 -- Why DESC: query wants latest trips first, so index is stored in
