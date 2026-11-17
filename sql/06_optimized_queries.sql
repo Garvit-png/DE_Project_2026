@@ -10,8 +10,8 @@
 -- Changes made vs original workload_30.sql:
 --   R02: Replaced DATE() wrapper with sargable range (uses index)
 --   R08: Replaced EXTRACT(YEAR) with sargable range (uses index)
---   R09: Replaced NOT IN (subquery) with NOT EXISTS (fixes NULL bug + faster)
---   R10: Replaced NOT IN (subquery) with NOT EXISTS (fixes NULL bug + faster)
+--   R09: Replaced NOT IN with NOT EXISTS (null-safe anti-join pattern; faster)
+--   R10: Replaced NOT IN with NOT EXISTS (fixes nullable driver_id NULL trap)
 --   R16: Replaced OFFSET with keyset pagination (WHERE trip_id < N)
 --   R18: Replaced correlated subquery with LEFT JOIN + GROUP BY (20s → <5ms)
 --   R20: Replaced ::date cast in WHERE with sargable range
@@ -107,12 +107,10 @@ ORDER BY 1, 2;
 
 -- @R09
 -- Marketing: Bengaluru riders with no trip since 1 April 2026 (win-back campaign)
--- CHANGED: NOT IN → NOT EXISTS.
--- BUG FIX: NOT IN returns zero rows if the subquery contains even one NULL rider_id
--- (cancelled trips where driver never assigned have rider_id as NOT NULL, but 
--- REQUESTED trips do have a rider_id so this is safe... however NOT EXISTS is 
--- still the correct, safer, and faster pattern).
--- NOT EXISTS short-circuits on first match; also uses idx_trips_requested_at.
+-- CHANGED: NOT IN → NOT EXISTS for a null-safe anti-join pattern and faster execution.
+-- The subquery compares rider_id, which is NOT NULL in this schema, so R09 itself
+-- does not hit the NULL-trap bug. R10 does: its subquery compares nullable driver_id.
+-- The rider and requested_at indexes support this lookup.
 SELECT r.rider_id, r.full_name, r.email
 FROM riders r
 WHERE r.home_city_id = 1
@@ -125,7 +123,8 @@ WHERE r.home_city_id = 1
 
 -- @R10
 -- Driver ops: active drivers with no trip at all since 25 June 2026
--- CHANGED: NOT IN → NOT EXISTS (same reasoning as R09).
+-- CHANGED: NOT IN → NOT EXISTS.
+-- This query fixes the actual NULL trap: cancelled/unassigned trips can have a NULL driver_id.
 SELECT d.driver_id, d.full_name, d.city_id
 FROM drivers d
 WHERE d.status = 'ACTIVE'

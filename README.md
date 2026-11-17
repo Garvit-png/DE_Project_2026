@@ -22,13 +22,13 @@
 | Metric | Value |
 |--------|------:|
 | Total queries optimized | 30 (25 read + 5 write) |
-| Baseline total time | ~40,014 ms |
-| Optimized total time | ~397 ms |
-| **Overall speedup** | **99.0% (100×)** |
+| Baseline total time | 40,047.487 ms |
+| Optimized total time | 396.073 ms |
+| **Overall speedup** | **99.01% reduction (~101.1×)** |
 | Biggest single win | R18: 20,451 ms → 25 ms (802×) |
 | Second biggest win | W05: 19,091 ms → 10 ms (1,864×) |
 | Bug found & fixed | R10: NOT IN returned 0 rows (NULL trap) |
-| Indexes created | 19 (composite, partial, expression, GIN) |
+| Secondary indexes created | 18 (composite, partial, expression, GIN) |
 | CHECK constraints | 13+ across 8 tables |
 | Integrity checks | 5 (all pass with 0 violations) |
 
@@ -75,7 +75,7 @@ Output: `benchmarks/results/baseline/summary.csv` + raw plans for all 30 queries
 ```bash
 psql -d uber_db -f sql/05_indexes.sql
 ```
-Creates 19 indexes (composite, partial, expression, GIN trigram).
+Creates 18 secondary indexes (composite, partial, expression, GIN trigram).
 
 ### Step 5: Run optimized benchmarks (Phase 4)
 ```bash
@@ -110,8 +110,8 @@ DE_Project_2026/
 ├── sql/
 │   ├── 01_schema.sql                       # CP1: 8 tables, 13+ CHECK constraints, PKs, FKs
 │   ├── 02_load_data.sql                    # CP1: \copy in FK-safe order + 5 integrity checks
-│   ├── 05_indexes.sql                      # CP3: 19 indexes with per-query explanations
-│   ├── 06_optimized_queries.sql            # CP3: 30 queries (6 rewritten, results unchanged)
+│   ├── 05_indexes.sql                      # CP3: 18 indexes with per-query explanations
+│   ├── 06_optimized_queries.sql            # CP3: 30 queries (7 rewritten)
 │   └── 08_partitioning.sql                 # CP4: Monthly RANGE partitions on trips
 │
 ├── diagrams/
@@ -170,7 +170,7 @@ All 30 queries benchmarked with `EXPLAIN (ANALYZE, BUFFERS)`, 3 runs each. Key f
 
 ### Phase 3: Optimization
 
-**19 indexes created** across 5 types:
+**18 secondary indexes created** across 5 types:
 
 | Type | Example | Serves |
 |------|---------|--------|
@@ -180,9 +180,9 @@ All 30 queries benchmarked with `EXPLAIN (ANALYZE, BUFFERS)`, 3 runs each. Key f
 | GIN trigram | `USING GIN (full_name gin_trgm_ops)` | R13 |
 | FK index | `ON payments (trip_id)` | R15 |
 
-**6 queries rewritten:**
+**7 queries rewritten:**
 - R02, R08, R20: `DATE()` / `EXTRACT()` / `::date` → sargable TIMESTAMPTZ ranges
-- R09, R10: `NOT IN` → `NOT EXISTS` (fixes NULL bug, also faster)
+- R09, R10: `NOT IN` → `NOT EXISTS` (R10 fixes the nullable-driver NULL bug; R09 uses the null-safe anti-join pattern)
 - R16: `OFFSET 200000` → keyset pagination `WHERE trip_id <= anchor`
 - R18: correlated subquery → `LEFT JOIN ... GROUP BY` (802× faster)
 

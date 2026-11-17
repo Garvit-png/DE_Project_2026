@@ -44,7 +44,7 @@ Summary CSV: `benchmarks/results/baseline/summary.csv`
 | W03: Suspend low-rated drivers | WRITE | 4.665 | 4.772 | 5.112 | **4.850** |
 | W04: Bulk import of 5,000 trips | WRITE | 27.907 | 28.219 | 33.465 | **29.864** |
 | W05: Purge cancelled trips from Jan 2025 | WRITE | 18,608.304 | 19,153.977 | 19,511.460 | **19,091.247** |
-| **Total (sum of all 30)** | | | | | **~40,014 ms** |
+| **Total (sum of all 30 averages)** | | | | | **40,047.487 ms** |
 
 ---
 

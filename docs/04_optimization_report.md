@@ -18,7 +18,7 @@
 | R06 | 12.505 | Seq Scan trips | Partial index on COMPLETED trips + `requested_at` | 8.261 | **33.9% (1.5×)** | ✅ |
 | R07 | 13.881 | Seq Scan all three tables | COMPLETED partial index; city join (10 rows) stays seq scan | 11.564 | **16.7% (1.2×)** | ✅ |
 | R08 | 27.650 | Seq Scan payments; `EXTRACT(YEAR)` blocks index | Sargable date range + `(payment_status, paid_at)` index | 34.526 | −24.9% (slower) | ✅ |
-| R09 | 20.277 | Seq Scan; `NOT IN` (wrong-result bug) | `NOT EXISTS` rewrite + `idx_trips_requested_at` | 7.088 | **65.0% (2.9×)** | ✅ |
+| R09 | 20.277 | Seq Scan; anti-join via `NOT IN` | `NOT EXISTS` rewrite + index support; `rider_id` is NOT NULL, so this query had no NULL-trap bug | 7.088 | **65.0% (2.9×)** | ✅ |
 | R10 | 14.471 | `NOT IN` returns wrong answer (0 rows!) | `NOT EXISTS` rewrite — **bug fixed** | 0.977 | **93.2% (15×)** | ✅ (fixed) |
 | R11 | 30.263 | Seq Scan 307k ratings | Index `(rated_by, trip_id)` on ratings | 31.146 | −2.9% (no change) | ✅ |
 | R12 | 54.361 | Seq Scan all trips for Delhi | Bitmap Index Scan via `idx_trips_city_status_requested` | 21.049 | **61.3% (2.6×)** | ✅ |
@@ -40,7 +40,7 @@
 | W03 | 4.850 | Seq Scan 3k drivers | Small table — acceptable | 6.726 | −38.7% (overhead) | ✅ |
 | W04 | 29.864 | Bulk insert via generate_series | No change possible — overhead from new indexes | 98.793 | −231% (overhead) | ✅ |
 | W05 | 19,091.247 | Full scan DELETE 300k trips | Partial index `WHERE status LIKE 'CANCELLED%'` | 10.245 | **99.9% (1,864×)** | ✅ |
-| **Total** | **~40,014 ms** | | | **~397 ms** | **99.0%** | |
+| **Total** | **40,047.487 ms** | | | **396.073 ms** | **99.01% reduction (~101.1×)** | |
 
 ---
 
