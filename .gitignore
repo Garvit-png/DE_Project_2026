@@ -10,7 +10,7 @@ FRIENDS_GUIDE.md
 .DS_Store
 *.DS_Store
 
-# PostgreSQL dumps
+# PostgreSQL dump
 *.dump
 *.sql.gz
 
